@@ -9,7 +9,7 @@ export type AuthContextType = {
     signout: () => void;
     getVisitor: (type: string, field: string, filter: string) => Promise<string>;
     getCompanies: (type: string, field: string, filter: string) => Promise<[]>;
-    getCompany: (type: string, field: string, filter: string) => Promise<[]>;
+    getCompany: (type: string, field: string, filter: string) => Promise<CompanyInfo[]>;
     visitorinfo: VisitorInfo;
 }
 

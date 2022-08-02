@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Button, Card, Form, FormGroup, FormLabel, InputGroup, Modal, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { CompanyInfo } from "../../Classes/CompanyInfo";
+import { VisitorInfo } from "../../Classes/VisitorInfo";
 import { AuthContext } from "../../Contexts/Auth/AuthContext";
 
 interface props {
@@ -11,8 +12,8 @@ export const BISEmpresa = (props: props) => {
     const auth = useContext(AuthContext);
     const [show, setShow] = useState(false);
     const [name, setName] = useState('');
-    const [data, setData] = useState([]);
-    const [companyinfo, setCompanyInfo] = useState<CompanyInfo>();
+    const [data, setData] = useState<CompanyInfo[]>([]);
+    const [companyinfo, setCompanyInfo] = useState<CompanyInfo[]>([]);
 
 //    let companyinfo: CompanyInfo = { COMPANYID: '', COMPANYNO: '', NAME: '' };
 
@@ -28,17 +29,17 @@ export const BISEmpresa = (props: props) => {
 
         const response = await auth.getCompanies("LOADCOMPANYSQL", "name", name);
         setData(response);
-        console.log(data);
+        console.log(response);
     };
 
     useEffect(() => {
         const getCompanyNO = async () => {
-            let response = await auth.getCompany("LOADCOMPANY", "companyid", props.companyid);
+            const response = await auth.getCompany("LOADCOMPANY", "companyid", props.companyid);
             setData(response);
-            setCompanyInfo({ data.map(cmpinfo => COMPANYID = cmpinfo["COMPANYIND"]) });
+            console.log('data', data)
         };
         getCompanyNO();
-    }, []);
+    }, [props.companyid]);
 
     const setAlert = async (companyid: string, companyno: string) => {
         auth.visitorinfo.companyid = companyid;
@@ -46,17 +47,6 @@ export const BISEmpresa = (props: props) => {
         setShow(false);
     };
 
-    function convertjJSON(jsonstring: string) {
-        var obj = JSON.parse(jsonstring);
-        
-        var res = [];
-    
-        for (var i in obj)
-            res.push(obj[i]);
-    
-        return res;
-    }
-    
     return (
         <div>
             <FormGroup className="mb-3">
@@ -66,7 +56,6 @@ export const BISEmpresa = (props: props) => {
                     placeholder="empresa"
                     aria-describedby="basic-addon2"
                     id="companyno"
-                    value={data?.map(cmpinfo => cmpinfo["COMPANYNO"])}
                     disabled
                     />
                     <Button onClick={() => setShow(true)}>Selecionar</Button>
@@ -91,7 +80,7 @@ export const BISEmpresa = (props: props) => {
                                     Pesquisar
                                 </Button>
                             </InputGroup>
-                            {data &&
+                            {/* {data &&
                             <Card>
                                 <Card.Body>
                                     <Table striped bordered hover>
@@ -99,17 +88,18 @@ export const BISEmpresa = (props: props) => {
                                         {data.map(cmpinfo =>
                                                 <tr>
                                                     <th>
-                                                        <Link onClick={() => setAlert(cmpinfo["COMPANYID"],
+                                                         <Link onClick={() => setAlert(cmpinfo["COMPANYID"],
                                                         cmpinfo["COMPANYNO"])} to={cmpinfo["COMPANYID"]}>
                                                         {cmpinfo["COMPANYNO"]}</Link>
-                                                        </th>
+                                                 
+                                                         </th>
                                                 </tr>
                                             )}
                                         </tbody>
                                     </Table>
                                 </Card.Body>
                             </Card>
-                        }
+                        } */}
                         </Form.Group>
                     </Form>
                 </Modal.Body>

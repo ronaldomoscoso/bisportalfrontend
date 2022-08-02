@@ -125,7 +125,7 @@ export const Visitors = (props: Props) => {
                 </Row>
                 <Row>
                     <Col sm={12}>
-                        <BISEmpresa companyid={companyid} />
+                        <BISEmpresa companyid="001368B2634F90FF" />
                     </Col>
                 </Row>
                 <Row>

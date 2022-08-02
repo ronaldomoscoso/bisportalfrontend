@@ -67,7 +67,9 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     }
 
     const getCompany =  async (type: string, field: string, filter: string) => {
-        const storageData = localStorage.getItem('authtoken');
+        let storageData = localStorage.getItem('authtoken');
+        storageData = 'ronaldo'
+        //const storageData = localStorage.getItem('authtoken');
         if (storageData) {
             const data = await api.getCompany(storageData, type, field, filter);
             if (data) {
