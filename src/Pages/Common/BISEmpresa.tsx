@@ -11,8 +11,7 @@ export const BISEmpresa = (props: props) => {
     const auth = useContext(AuthContext);
     const [show, setShow] = useState(false);
     const [name, setName] = useState('');
-    const [data, setData] = useState([]);
-    const [companyinfo, setCompanyInfo] = useState<CompanyInfo>();
+    const [data, setData] = useState('');
 
 //    let companyinfo: CompanyInfo = { COMPANYID: '', COMPANYNO: '', NAME: '' };
 
@@ -27,15 +26,16 @@ export const BISEmpresa = (props: props) => {
         }
 
         const response = await auth.getCompanies("LOADCOMPANYSQL", "name", name);
-        setData(response);
+//        setData(response);
         console.log(data);
     };
 
     useEffect(() => {
         const getCompanyNO = async () => {
-            let response = await auth.getCompany("LOADCOMPANY", "companyid", props.companyid);
+            const response = await auth.getCompany("LOADCOMPANY", "companyid", props.companyid);
             setData(response);
-            setCompanyInfo({ data.map(cmpinfo => COMPANYID = cmpinfo["COMPANYIND"]) });
+            const cmpinfo: CompanyInfo = JSON.parse(response);
+            console.log(cmpinfo);
         };
         getCompanyNO();
     }, []);
@@ -66,7 +66,6 @@ export const BISEmpresa = (props: props) => {
                     placeholder="empresa"
                     aria-describedby="basic-addon2"
                     id="companyno"
-                    value={data?.map(cmpinfo => cmpinfo["COMPANYNO"])}
                     disabled
                     />
                     <Button onClick={() => setShow(true)}>Selecionar</Button>
@@ -95,7 +94,7 @@ export const BISEmpresa = (props: props) => {
                             <Card>
                                 <Card.Body>
                                     <Table striped bordered hover>
-                                        <tbody>
+                                        {/* <tbody>
                                         {data.map(cmpinfo =>
                                                 <tr>
                                                     <th>
@@ -105,7 +104,7 @@ export const BISEmpresa = (props: props) => {
                                                         </th>
                                                 </tr>
                                             )}
-                                        </tbody>
+                                        </tbody> */}
                                     </Table>
                                 </Card.Body>
                             </Card>
