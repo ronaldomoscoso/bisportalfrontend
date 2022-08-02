@@ -1,24 +1,28 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Route, Routes } from 'react-router-dom';
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Visitors } from './Pages/Visitors/Visitors';
+import { Container, Navbar } from 'react-bootstrap';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <div className='App'>
+      <header>
+        <Navbar bg="light" expand="lg">
+          <Container>
+            <Navbar.Brand href="/visitors">Home</Navbar.Brand>
+          </Container>
+        </Navbar>
       </header>
+      <main>
+
+      </main>
+      <footer>
+
+      </footer>
+      <Routes>
+        <Route path='/visitors' element={<Visitors visid='0'  />}>Visitors</Route>
+      </Routes>
     </div>
   );
 }

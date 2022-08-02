@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { useState } from 'react';
 
-/*const api = axios.create({
+const api = axios.create({
     baseURL: process.env.REACT_APP_API
-});*/
+});
 
 const headers = {
     'Content-Type': 'application/json'
@@ -20,6 +20,22 @@ export const useApi = () => ({
     },
     logout: async () => {
         const response = await axios.post('/Home');
+        return response.data;
+    },
+    getVisitor: async (token: string, type: string, field: string, filter: string) => {
+        //const response = await axios.get('/BSVisitors/GetVisitors/LOADVISITOR/name/' + filter, {headers: {"Authorization": `Bearer ${ token }`}});
+        const response = await axios.get('/BSVisitors/GetVisitors/LOADVISITOR/' + field + '/' + filter, {headers: headers});
+        console.log(response);
+        return response.data;
+    },
+    getCompanies: async (token: string, type: string, field: string, filter: string) => {
+        const response = await axios.get('/BSTables/GetTables/LOADCOMPANYSQL/' + field + '/' + filter, {headers: headers});
+        console.log(response);
+        return response.data;
+    },
+    getCompany: async (token: string, type: string, field: string, filter: string) => {
+        const response = await axios.get('/BSTables/GetTables/LOADCOMPANY/' + field + '/' + filter, {headers: headers});
+        console.log(response);
         return response.data;
     }
 });

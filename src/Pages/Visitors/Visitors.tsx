@@ -1,49 +1,144 @@
-/** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
+import { useContext, useEffect, useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import avatar from "./avatar.png";
+import { Card, Row, Col, FormGroup, Form, FormLabel, Button } from "react-bootstrap";
+import { BISEmpresa } from "../Common/BISEmpresa";
+import { SearchVisitor } from "./SearchVisitor";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../Contexts/Auth/AuthContext";
 
-import { Page } from "../Page";
-import { Card, Container, Row, Col, Form, Button, InputGroup } from 'react-bootstrap';
-import { useState } from 'react';
+interface Props {
+    visid: string;
+}
 
-export const Visitors = () => {
-    const[txtsearch, setSearch] = useState('');
+interface FormData {
+    passportno: string;
+}
+export const Visitors = (props: Props) => {
+    const auth = useContext(AuthContext);
+    const { register, formState: { errors } } = useForm<FormData>();
+    const [visid, setID] = useState(props.visid);
+    const [data, setData] = useState('');
+    const [companyid, setCompanyID] = useState('0');
+    const [passportno, setPassportNO] = useState('');
+    const navigate = useNavigate();
 
-    const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSearch(e.target.value);
+    const registerOptions = {
+        passportno: { required: "Titulo em branco!",
+                 maxLength: {
+                     value: 50,
+                     message: "Maximo 50 letras.",
+                 }
+        },
+    };
+
+    const handlePassportNOInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setPassportNO(e.target.value);
     }
 
-    const handleSubmitSearch = async () => {
-        alert(txtsearch);
-    };
-        
+    const getData = async () => {
+        if (props.visid !== '0') {
+            const response = await auth.getVisitor('', 'visid', props.visid);
+            setData(response);
+        }
+        else
+            setData('');
+    }
+
+    const handleKeyDown = () => {
+        alert('ok');
+    }
+
+    useEffect(() => {
+        getData();
+    }, []);
+
     return (
-        <Page>
-            <Container fluid>
+        <div>
+            <Card>
+            <Card.Body>
                 <Row>
-                    <Col>
-                        <Card>
-                            <Card.Title style={{ padding: 20 }}>Pesquisa de Visitantes</Card.Title>
-                            <Card.Body>
-                                <Form>
-                                    <Form.Group className='mb-3' controlId='formSearchVisitor'>
-                                        <InputGroup className='mb-3'>
-                                            <Form.Control aria-label='txtsearch'
-                                                placeholder='digite n. documento ou nome'
-                                                aria-describedby='basic-addon2'
-                                                onChange={handleSearchInputChange}
-                                            ></Form.Control>
-                                            <Button variant='danger' 
-                                                id='btnSearch'
-                                                onClick={handleSubmitSearch}
-                                                >Pesquisar</Button>
-                                        </InputGroup>
-                                    </Form.Group>
-                                </Form>
-                            </Card.Body>
-                        </Card>
+                    <Col sm={3}>
+                        <FormGroup className="mb-3">
+                            <FormLabel>N.Documento</FormLabel>
+                            <Form.Control
+                            placeholder="n. do documento"
+                            aria-describedby="basic-addon2"
+                            id="passportno"
+                            onChange={handlePassportNOInputChange}
+                            onKeyDown={event => {
+                                if (event.key === "Enter") {
+                                    <SearchVisitor filter={passportno}/>
+                                }
+                            }}
+                            />
+                        </FormGroup>
+                    </Col>
+                    <Col sm={6}>
+                        <FormGroup className="mb-3">
+                            <FormLabel>Nome</FormLabel>
+                            <Form.Control
+                            placeholder="nome do visitante"
+                            aria-describedby="basic-addon2"
+                            id="name"
+                            />
+                        </FormGroup>
+                    </Col>
+                    <Col sm={3}>
+                        <FormGroup className="mb-3">
+                            <img src={avatar} width={160} height={120}></img>
+                        </FormGroup>
                     </Col>
                 </Row>
-            </Container>
-        </Page>
+                <Row>
+                    <Col sm={4}>
+                        <FormGroup className="mb-3">
+                            <FormLabel>Tel. Fixo</FormLabel>
+                            <Form.Control
+                            placeholder="telefone fixo"
+                            aria-describedby="basic-addon2"
+                            id="passportno"
+                            />
+                        </FormGroup>
+                    </Col>
+                    <Col sm={4}>
+                        <FormGroup className="mb-3">
+                            <FormLabel>Tel. Celular</FormLabel>
+                            <Form.Control
+                            placeholder="telefone celular"
+                            aria-describedby="basic-addon2"
+                            id="passportno"
+                            />
+                        </FormGroup>
+                    </Col>
+                    <Col sm={4}>
+                        <FormGroup className="mb-3">
+                            <FormLabel>E-mail</FormLabel>
+                            <Form.Control
+                            placeholder="e-mail"
+                            aria-describedby="basic-addon2"
+                            id="passportno"
+                            />
+                        </FormGroup>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col sm={12}>
+                        <BISEmpresa companyid={companyid} />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col sm={12}>
+                        <FormGroup className="mb-3">
+                            <FormLabel>Observações</FormLabel>
+                            <Form.Control as="textarea" rows={3} />
+                        </FormGroup>
+                    </Col>
+                </Row>
+            </Card.Body>
+            <Button onClick={() => alert(auth.companyid)}>Button</Button>
+        </Card>
+        </div>
     );
 }
