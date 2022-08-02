@@ -20,7 +20,7 @@ export const Visitors = (props: Props) => {
     const { register, formState: { errors } } = useForm<FormData>();
     const [visid, setID] = useState(props.visid);
     const [data, setData] = useState('');
-    const [companyid, setCompanyID] = useState('0');
+    const [companyid, setCompanyID] = useState('0013605EE83D76CA');
     const [passportno, setPassportNO] = useState('');
     const navigate = useNavigate();
 
@@ -137,7 +137,7 @@ export const Visitors = (props: Props) => {
                     </Col>
                 </Row>
             </Card.Body>
-            <Button onClick={() => alert(auth.companyid)}>Button</Button>
+            <Button onClick={() => alert(auth.visitorinfo.companyid)}>Button</Button>
         </Card>
         </div>
     );

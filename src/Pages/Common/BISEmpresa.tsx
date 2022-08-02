@@ -1,6 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, Card, Form, FormGroup, FormLabel, InputGroup, Modal, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { CompanyInfo } from "../../Classes/CompanyInfo";
 import { AuthContext } from "../../Contexts/Auth/AuthContext";
 
 interface props {
@@ -11,7 +12,9 @@ export const BISEmpresa = (props: props) => {
     const [show, setShow] = useState(false);
     const [name, setName] = useState('');
     const [data, setData] = useState([]);
-    const [companyno, setCompanyNO] = useState('');
+    const [companyinfo, setCompanyInfo] = useState<CompanyInfo>();
+
+//    let companyinfo: CompanyInfo = { COMPANYID: '', COMPANYNO: '', NAME: '' };
 
     const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setName(e.target.value);
@@ -28,10 +31,18 @@ export const BISEmpresa = (props: props) => {
         console.log(data);
     };
 
+    useEffect(() => {
+        const getCompanyNO = async () => {
+            let response = await auth.getCompany("LOADCOMPANY", "companyid", props.companyid);
+            setData(response);
+            setCompanyInfo({ data.map(cmpinfo => COMPANYID = cmpinfo["COMPANYIND"]) });
+        };
+        getCompanyNO();
+    }, []);
+
     const setAlert = async (companyid: string, companyno: string) => {
-        //const response = await auth.getCompany("LOADCOMPANY", "companyid", companyid);
-        auth.companyid = companyid;
-        setCompanyNO(companyno);
+        auth.visitorinfo.companyid = companyid;
+        auth.visitorinfo.companyno = companyno;
         setShow(false);
     };
 
@@ -55,7 +66,7 @@ export const BISEmpresa = (props: props) => {
                     placeholder="empresa"
                     aria-describedby="basic-addon2"
                     id="companyno"
-                    value={companyno}
+                    value={data?.map(cmpinfo => cmpinfo["COMPANYNO"])}
                     disabled
                     />
                     <Button onClick={() => setShow(true)}>Selecionar</Button>
@@ -88,8 +99,8 @@ export const BISEmpresa = (props: props) => {
                                         {data.map(cmpinfo =>
                                                 <tr>
                                                     <th>
-                                                        <Link key={cmpinfo["COMPANYID"]} onClick={() => setAlert(cmpinfo["COMPANYID"],
-                                                        cmpinfo["COMPANYNO"])} to={""}>
+                                                        <Link onClick={() => setAlert(cmpinfo["COMPANYID"],
+                                                        cmpinfo["COMPANYNO"])} to={cmpinfo["COMPANYID"]}>
                                                         {cmpinfo["COMPANYNO"]}</Link>
                                                         </th>
                                                 </tr>

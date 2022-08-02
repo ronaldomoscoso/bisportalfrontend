@@ -2,10 +2,14 @@ import { useEffect, useState } from "react";
 import { useApi } from "../../Hooks/useApi";
 import { User } from "../../Classes/User";
 import { AuthContext } from "./AuthContext";
+import { VisitorInfo } from "../../Classes/VisitorInfo";
 
 export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     const [user, setUser] = useState<User | null>(null);
-    const [companyid, setCompanyID] = useState('');
+//    let visitorinfo: VisitorInfo = { visid: '', nome: '', companyid: '', companyno: '', phonemobile: '', phoneoffice: '', phoneother: '' }!;
+    let visitorinfo: VisitorInfo = { visid: '', companyid: '', companyno: '' };
+
+//    const [visitorinfo, setVisitorInfo] = useState<VisitorInfo>();
     const api = useApi();
 
     // useEffect(() => {
@@ -78,8 +82,9 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
         localStorage.setItem('authtoken', token);
     };
 
+
     return (
-        <AuthContext.Provider value={{ user, signin, signout, getVisitor, getCompanies, getCompany, companyid }}>
+        <AuthContext.Provider value={{ user, signin, signout, getVisitor, getCompanies, getCompany, visitorinfo }}>
             {children}
         </AuthContext.Provider>
     );
