@@ -3,6 +3,7 @@ import { useApi } from "../../Hooks/useApi";
 import { User } from "../../Classes/User";
 import { AuthContext } from "./AuthContext";
 import { VisitorInfo } from "../../Classes/VisitorInfo";
+import { CompanyInfo } from "../../Classes/CompanyInfo";
 
 export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     const [user, setUser] = useState<User | null>(null);
@@ -69,10 +70,6 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     const getCompany =  async (type: string, field: string, filter: string) => {
         let storageData = localStorage.getItem('authtoken');
         storageData = 'ronaldo'
-<<<<<<< HEAD
-=======
-        //const storageData = localStorage.getItem('authtoken');
->>>>>>> a65f426fed101facf003ba69c661f25962ec26be
         if (storageData) {
             const data = await api.getCompany(storageData, type, field, filter);
             if (data) {

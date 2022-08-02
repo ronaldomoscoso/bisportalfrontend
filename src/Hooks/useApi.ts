@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useState } from 'react';
+import { CompanyInfo } from '../Classes/CompanyInfo';
 
 const api = axios.create({
     baseURL: process.env.REACT_APP_API
@@ -8,6 +9,7 @@ const api = axios.create({
 const headers = {
     'Content-Type': 'application/json'
 }
+
 
 export const useApi = () => ({
     validateToken: async (token: string) => {

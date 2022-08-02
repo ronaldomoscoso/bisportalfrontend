@@ -12,12 +12,9 @@ export const BISEmpresa = (props: props) => {
     const auth = useContext(AuthContext);
     const [show, setShow] = useState(false);
     const [name, setName] = useState('');
-<<<<<<< HEAD
     const [data, setData] = useState('');
-=======
-    const [data, setData] = useState<CompanyInfo[]>([]);
-    const [companyinfo, setCompanyInfo] = useState<CompanyInfo[]>([]);
->>>>>>> a65f426fed101facf003ba69c661f25962ec26be
+    const [cmpinfo, setCmpInfo] = useState<CompanyInfo>();
+    let cmpinfocmp = new CompanyInfo('','','');
 
 //    let companyinfo: CompanyInfo = { COMPANYID: '', COMPANYNO: '', NAME: '' };
 
@@ -32,25 +29,18 @@ export const BISEmpresa = (props: props) => {
         }
 
         const response = await auth.getCompanies("LOADCOMPANYSQL", "name", name);
-<<<<<<< HEAD
-//        setData(response);
-        console.log(data);
-=======
-        setData(response);
-        console.log(response);
->>>>>>> a65f426fed101facf003ba69c661f25962ec26be
+        // setData(response);
     };
 
     useEffect(() => {
         const getCompanyNO = async () => {
             const response = await auth.getCompany("LOADCOMPANY", "companyid", props.companyid);
-            setData(response);
-<<<<<<< HEAD
-            const cmpinfo: CompanyInfo = JSON.parse(response);
-            console.log(cmpinfo);
-=======
-            console.log('data', data)
->>>>>>> a65f426fed101facf003ba69c661f25962ec26be
+            //setData(response);
+            response.map((cmp: { [x: string]: string; }) => {
+                cmpinfocmp = new CompanyInfo(cmp["COMPANYID"], cmp["COMPANYNO"], cmp["NAME"])
+            })
+            console.log(cmpinfocmp);
+            setCmpInfo(cmpinfocmp);
         };
         getCompanyNO();
     }, [props.companyid]);
@@ -70,6 +60,7 @@ export const BISEmpresa = (props: props) => {
                     placeholder="empresa"
                     aria-describedby="basic-addon2"
                     id="companyno"
+                    value={cmpinfo?.COMPANYNO}
                     disabled
                     />
                     <Button onClick={() => setShow(true)}>Selecionar</Button>
@@ -94,7 +85,7 @@ export const BISEmpresa = (props: props) => {
                                     Pesquisar
                                 </Button>
                             </InputGroup>
-                            {/* {data &&
+                             {data &&
                             <Card>
                                 <Card.Body>
                                     <Table striped bordered hover>
@@ -113,7 +104,7 @@ export const BISEmpresa = (props: props) => {
                                     </Table>
                                 </Card.Body>
                             </Card>
-                        } */}
+                        } 
                         </Form.Group>
                     </Form>
                 </Modal.Body>

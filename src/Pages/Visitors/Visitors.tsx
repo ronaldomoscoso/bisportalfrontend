@@ -7,6 +7,7 @@ import { SearchVisitor } from "./SearchVisitor";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Contexts/Auth/AuthContext";
+import { CompanyInfo } from "../../Classes/CompanyInfo";
 
 interface Props {
     visid: string;
@@ -125,7 +126,7 @@ export const Visitors = (props: Props) => {
                 </Row>
                 <Row>
                     <Col sm={12}>
-                        <BISEmpresa companyid="001368B2634F90FF" />
+                        <BISEmpresa companyid="0013605EE83D76CA" />
                     </Col>
                 </Row>
                 <Row>
