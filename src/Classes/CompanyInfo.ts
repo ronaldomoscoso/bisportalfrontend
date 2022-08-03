@@ -1,7 +1,7 @@
 export class CompanyInfo {
-    COMPANYID: string | undefined;
-    COMPANYNO: string | undefined;
-    NAME: string | undefined;
+    COMPANYID: string;
+    COMPANYNO: string;
+    NAME: string ;
 
     constructor(id: string, cmpno: string, cmpname: string) {
         this.COMPANYID = id;
