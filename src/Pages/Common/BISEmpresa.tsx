@@ -12,11 +12,10 @@ export const BISEmpresa = (props: props) => {
     const auth = useContext(AuthContext);
     const [show, setShow] = useState(false);
     const [name, setName] = useState('');
-    const [data, setData] = useState('');
-    const [cmpinfo, setCmpInfo] = useState<CompanyInfo>();
+    const [data, setData] = useState([]);
+    const [companyno, setCompanyNO] = useState<string | undefined>();
+    const [companyid, setCompanyID] = useState<string>();
     let cmpinfocmp = new CompanyInfo('','','');
-
-//    let companyinfo: CompanyInfo = { COMPANYID: '', COMPANYNO: '', NAME: '' };
 
     const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setName(e.target.value);
@@ -29,25 +28,25 @@ export const BISEmpresa = (props: props) => {
         }
 
         const response = await auth.getCompanies("LOADCOMPANYSQL", "name", name);
-        // setData(response);
+        setData(response);
     };
 
     useEffect(() => {
         const getCompanyNO = async () => {
             const response = await auth.getCompany("LOADCOMPANY", "companyid", props.companyid);
-            //setData(response);
             response.map((cmp: { [x: string]: string; }) => {
                 cmpinfocmp = new CompanyInfo(cmp["COMPANYID"], cmp["COMPANYNO"], cmp["NAME"])
             })
-            console.log(cmpinfocmp);
-            setCmpInfo(cmpinfocmp);
+            setCompanyNO(cmpinfocmp.COMPANYNO);
+            setCompanyID(cmpinfocmp.COMPANYID);
         };
         getCompanyNO();
     }, [props.companyid]);
 
     const setAlert = async (companyid: string, companyno: string) => {
-        auth.visitorinfo.companyid = companyid;
+        setCompanyNO(companyno);
         auth.visitorinfo.companyno = companyno;
+        auth.visitorinfo.companyid = companyid;
         setShow(false);
     };
 
@@ -57,10 +56,10 @@ export const BISEmpresa = (props: props) => {
                 <FormLabel>Empresa</FormLabel>
                 <InputGroup>
                     <Form.Control
-                    placeholder="empresa"
+                    placeholder="nome da empresa"
                     aria-describedby="basic-addon2"
                     id="companyno"
-                    value={cmpinfo?.COMPANYNO}
+                    value={companyno}
                     disabled
                     />
                     <Button onClick={() => setShow(true)}>Selecionar</Button>
@@ -89,18 +88,18 @@ export const BISEmpresa = (props: props) => {
                             <Card>
                                 <Card.Body>
                                     <Table striped bordered hover>
-                                        {/* <tbody>
+                                        <tbody>
                                         {data.map(cmpinfo =>
                                                 <tr>
                                                     <th>
                                                          <Link onClick={() => setAlert(cmpinfo["COMPANYID"],
-                                                        cmpinfo["COMPANYNO"])} to={cmpinfo["COMPANYID"]}>
+                                                        cmpinfo["COMPANYNO"])} to={""}>
                                                         {cmpinfo["COMPANYNO"]}</Link>
                                                  
                                                          </th>
                                                 </tr>
                                             )}
-                                        </tbody> */}
+                                        </tbody>
                                     </Table>
                                 </Card.Body>
                             </Card>

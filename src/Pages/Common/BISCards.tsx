@@ -8,13 +8,23 @@ interface Props {
 }
 export const BISCards = (props: Props) => {
     const [show, setShow] = useState(false);
+    const [sitecode, setSiteCode] = useState('');
+    const [cardno, setCardno] = useState('');
+
+    const handleSiteCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSiteCode(e.target.value);
+    }
+
+    const handleCardnoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setCardno(e.target.value);
+    }
 
     return (
         <div>
             <Card>
                 <Card.Body>
                     <Row>
-                        <Col sm={1}>
+                        <Col sm={3}>
                             <FormGroup className="mb-3">
                                 <FormLabel>SiteCode</FormLabel>
                                 <Form.Control
@@ -22,7 +32,7 @@ export const BISCards = (props: Props) => {
                                 aria-describedby="basic-addon2"
                                 id="search"
                                 maxLength={5}
-                                value={props.sitecode}
+                                onChange={handleSiteCodeChange}
                                 />
                             </FormGroup>
                         </Col>
@@ -33,7 +43,8 @@ export const BISCards = (props: Props) => {
                                 placeholder="n. cartão"
                                 aria-describedby="basic-addon2"
                                 id="search"
-                                maxLength={15}
+                                maxLength={20}
+                                onChange={handleCardnoChange}
                                 />
                                 {props.visid && <Table>
                                     <tbody>

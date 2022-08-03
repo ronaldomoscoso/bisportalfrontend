@@ -6,12 +6,9 @@ import { VisitorInfo } from "../../Classes/VisitorInfo";
 import { CompanyInfo } from "../../Classes/CompanyInfo";
 
 export const AuthProvider = ({ children }: { children: JSX.Element }) => {
-    const [user, setUser] = useState<User | null>(null);
-//    let visitorinfo: VisitorInfo = { visid: '', nome: '', companyid: '', companyno: '', phonemobile: '', phoneoffice: '', phoneother: '' }!;
-    let visitorinfo: VisitorInfo = { visid: '', companyid: '', companyno: '' };
-
-//    const [visitorinfo, setVisitorInfo] = useState<VisitorInfo>();
     const api = useApi();
+    const [user, setUser] = useState<User | null>(null);
+    const visitorinfo = new VisitorInfo();
 
     // useEffect(() => {
     //     const validateToken = async () => {

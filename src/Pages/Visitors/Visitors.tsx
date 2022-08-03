@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Contexts/Auth/AuthContext";
 import { CompanyInfo } from "../../Classes/CompanyInfo";
+import { BISCards } from "../Common/BISCards";
 
 interface Props {
     visid: string;
@@ -25,6 +26,10 @@ export const Visitors = (props: Props) => {
     const [passportno, setPassportNO] = useState('');
     const navigate = useNavigate();
 
+    const [phonemobile, setPhoneMobile] = useState('');
+    const [phoneoffice, setPhoneOffice] = useState('');
+    const [phoneother, setPhoneOther] = useState('');
+
     const registerOptions = {
         passportno: { required: "Titulo em branco!",
                  maxLength: {
@@ -33,6 +38,18 @@ export const Visitors = (props: Props) => {
                  }
         },
     };
+
+    const handlePhoneMobileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setPhoneMobile(e.target.value);
+    }
+
+    const handlePhoneOfficeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setPhoneOffice(e.target.value);
+    }
+
+    const handlePhoneOtherChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setPhoneOther(e.target.value);
+    }
 
     const handlePassportNOInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPassportNO(e.target.value);
@@ -99,7 +116,8 @@ export const Visitors = (props: Props) => {
                             <Form.Control
                             placeholder="telefone fixo"
                             aria-describedby="basic-addon2"
-                            id="passportno"
+                            id="phoneoffice"
+                            onChange={handlePhoneOfficeChange}
                             />
                         </FormGroup>
                     </Col>
@@ -109,7 +127,8 @@ export const Visitors = (props: Props) => {
                             <Form.Control
                             placeholder="telefone celular"
                             aria-describedby="basic-addon2"
-                            id="passportno"
+                            id="phonemobile"
+                            onChange={handlePhoneOtherChange}
                             />
                         </FormGroup>
                     </Col>
@@ -119,14 +138,14 @@ export const Visitors = (props: Props) => {
                             <Form.Control
                             placeholder="e-mail"
                             aria-describedby="basic-addon2"
-                            id="passportno"
+                            id="email"
                             />
                         </FormGroup>
                     </Col>
                 </Row>
                 <Row>
                     <Col sm={12}>
-                        <BISEmpresa companyid="0013605EE83D76CA" />
+                        <BISEmpresa companyid="" />
                     </Col>
                 </Row>
                 <Row>
@@ -135,6 +154,14 @@ export const Visitors = (props: Props) => {
                             <FormLabel>Observações</FormLabel>
                             <Form.Control as="textarea" rows={3} />
                         </FormGroup>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col sm={6}>
+                        <BISCards visid="" sitecode="" cardno=""/>
+                    </Col>
+                    <Col sm={6}>
+                        Autorizacao
                     </Col>
                 </Row>
             </Card.Body>
