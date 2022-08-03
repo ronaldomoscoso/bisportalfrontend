@@ -1,6 +1,4 @@
 import axios from 'axios';
-import { useState } from 'react';
-import { CompanyInfo } from '../Classes/CompanyInfo';
 
 const api = axios.create({
     baseURL: process.env.REACT_APP_API

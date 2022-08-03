@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Button, Card, Form, FormGroup, FormLabel, InputGroup, Modal, Table } from "react-bootstrap";
+import { Button, Card, FloatingLabel, Form, FormGroup, FormLabel, InputGroup, ListGroup, ListGroupItem, Modal, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { CompanyInfo } from "../../Classes/CompanyInfo";
 import { VisitorInfo } from "../../Classes/VisitorInfo";
@@ -33,12 +33,14 @@ export const BISEmpresa = (props: props) => {
 
     useEffect(() => {
         const getCompanyNO = async () => {
-            const response = await auth.getCompany("LOADCOMPANY", "companyid", props.companyid);
-            response.map((cmp: { [x: string]: string; }) => {
-                cmpinfocmp = new CompanyInfo(cmp["COMPANYID"], cmp["COMPANYNO"], cmp["NAME"])
-            })
-            setCompanyNO(cmpinfocmp.COMPANYNO);
-            setCompanyID(cmpinfocmp.COMPANYID);
+            if (props.companyid != '') {
+                const response = await auth.getCompany("LOADCOMPANY", "companyid", props.companyid);
+                response.map((cmp: { [x: string]: string; }) => {
+                    cmpinfocmp = new CompanyInfo(cmp["COMPANYID"], cmp["COMPANYNO"], cmp["NAME"])
+                })
+                setCompanyNO(cmpinfocmp.COMPANYNO);
+                setCompanyID(cmpinfocmp.COMPANYID);
+                }
         };
         getCompanyNO();
     }, [props.companyid]);

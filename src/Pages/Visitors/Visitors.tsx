@@ -1,14 +1,15 @@
 import { useContext, useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import avatar from "./avatar.png";
-import { Card, Row, Col, FormGroup, Form, FormLabel, Button } from "react-bootstrap";
+import { Card, Row, Col, FormGroup, Form, FormLabel, Button, Accordion } from "react-bootstrap";
 import { BISEmpresa } from "../Common/BISEmpresa";
 import { SearchVisitor } from "./SearchVisitor";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Contexts/Auth/AuthContext";
-import { CompanyInfo } from "../../Classes/CompanyInfo";
+import { VisitorInfo } from "../../Classes/VisitorInfo";
 import { BISCards } from "../Common/BISCards";
+import AccordionItem from "react-bootstrap/esm/AccordionItem";
 
 interface Props {
     visid: string;
@@ -21,11 +22,11 @@ export const Visitors = (props: Props) => {
     const auth = useContext(AuthContext);
     const { register, formState: { errors } } = useForm<FormData>();
     const [visid, setID] = useState(props.visid);
-    const [data, setData] = useState('');
-    const [companyid, setCompanyID] = useState('0013605EE83D76CA');
     const [passportno, setPassportNO] = useState('');
     const navigate = useNavigate();
 
+    let visitorinfo = new VisitorInfo();
+    const [nome, setNome] = useState('');
     const [phonemobile, setPhoneMobile] = useState('');
     const [phoneoffice, setPhoneOffice] = useState('');
     const [phoneother, setPhoneOther] = useState('');
@@ -55,22 +56,22 @@ export const Visitors = (props: Props) => {
         setPassportNO(e.target.value);
     }
 
-    const getData = async () => {
-        if (props.visid !== '0') {
-            const response = await auth.getVisitor('', 'visid', props.visid);
-            setData(response);
-        }
-        else
-            setData('');
-    }
-
     const handleKeyDown = () => {
         alert('ok');
     }
 
     useEffect(() => {
-        getData();
-    }, []);
+        const getVisID = async () => {
+            if (props.visid != '') {
+                const response = await auth.getVisitor("", "visid", props.visid);
+                response.map((cmp: { [x: string]: string; }) => {
+                    visitorinfo = new VisitorInfo()
+                })
+                setNome(visitorinfo.name);
+                }
+        };
+        getVisID();
+    }, [props.visid]);
 
     return (
         <div>
@@ -161,7 +162,14 @@ export const Visitors = (props: Props) => {
                         <BISCards visid="" sitecode="" cardno=""/>
                     </Col>
                     <Col sm={6}>
-                        Autorizacao
+                        <Accordion>
+                            <AccordionItem eventKey="0">
+                                <Accordion.Header>Autorizações</Accordion.Header>
+                                <Accordion.Body>
+
+                                </Accordion.Body>
+                            </AccordionItem>
+                        </Accordion>
                     </Col>
                 </Row>
             </Card.Body>

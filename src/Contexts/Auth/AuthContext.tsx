@@ -7,7 +7,7 @@ export type AuthContextType = {
     user: User | null;
     signin: (email: string, password: string) => Promise<boolean>; 
     signout: () => void;
-    getVisitor: (type: string, field: string, filter: string) => Promise<string>;
+    getVisitor: (type: string, field: string, filter: string) => Promise<[]>;
     getCompanies: (type: string, field: string, filter: string) => Promise<[]>;
     getCompany: (type: string, field: string, filter: string) => Promise<[]>;
     visitorinfo: VisitorInfo;
