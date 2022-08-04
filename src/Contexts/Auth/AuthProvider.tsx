@@ -45,7 +45,6 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
         if (storageData) {
             const data = await api.getVisitor(storageData, type, field, filter);
             if (data) {
-                setUser(data);
                 return data;
             }
         }

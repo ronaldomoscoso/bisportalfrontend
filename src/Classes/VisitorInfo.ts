@@ -1,5 +1,5 @@
 export class VisitorInfo {
-    visid: string;
+    VISID: string;
     name: string;
     companyid: string | null;
     companyno: string;
@@ -8,7 +8,7 @@ export class VisitorInfo {
     email: string;
 
     constructor() {
-        this.visid = '';
+        this.VISID = '';
         this.name = '';
         this.companyid = '';
         this.companyno = '';
