@@ -5,7 +5,7 @@ import { AuthContext } from "../../Contexts/Auth/AuthContext";
 import { BISEmpresa } from "../Common/BISEmpresa";
 
 interface Props {
-    visid: string;
+    id: string;
 }
 
 interface FormData {
@@ -14,24 +14,26 @@ interface FormData {
 export const Visitors = (props: Props) => {
     const auth = useContext(AuthContext);
     const [data, setData] = useState([]);
-    const [visid, setVisID] = useState<string | undefined>();
+    const [vid, setVisID] = useState<string>();
     const [name, setName] = useState('');
-    var visitorinfo = new VisitorInfo('');
+    let visitorinfo = new VisitorInfo('');
     
     useEffect(() => {
         const loadVisitor = async () => {
-            if (props.visid != '') {
-                const response = await auth.getVisitor("LOADVISITOR", "visid", props.visid);
+            if (props.id != '') {
+                const response = await auth.getVisitor("LOADVISITOR", "visid", props.id);
                 response.map((cmp: { [x: string]: string; }) => {
-                    visitorinfo = new VisitorInfo(cmp["VISID"])
+                    visitorinfo = new VisitorInfo(cmp["VISID"]);
+                    console.log(visitorinfo);
+                    setVisID(visitorinfo.VISID);
                 })
-                console.log(visitorinfo);
-                setVisID(visitorinfo.VISID);
             }
+
+            setVisID(visitorinfo.VISID);
         };
         loadVisitor();
-        console.log(visid);
-    }, [props.visid]);
+        console.log(vid, visitorinfo.VISID);
+    }, [props.id]);
 
     return (
         <div>

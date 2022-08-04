@@ -47,8 +47,8 @@ export const BISEmpresa = (props: props) => {
 
     const setAlert = async (companyid: string, companyno: string) => {
         setCompanyNO(companyno);
-        auth.visitorinfo.companyno = companyno;
-        auth.visitorinfo.companyid = companyid;
+        // auth.visitorinfo.companyno = companyno;
+        // auth.visitorinfo.companyid = companyid;
         setShow(false);
     };
 
