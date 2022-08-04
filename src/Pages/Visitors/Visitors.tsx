@@ -14,21 +14,23 @@ interface FormData {
 export const Visitors = (props: Props) => {
     const auth = useContext(AuthContext);
     const [data, setData] = useState([]);
-    const [visid, setVisID] = useState('');
+    const [visid, setVisID] = useState<string | undefined>();
     const [name, setName] = useState('');
-    let [visitorinfo, setVisitorInfo] = useState(VisitorInfo)
+    var visitorinfo = new VisitorInfo('');
     
     useEffect(() => {
         const loadVisitor = async () => {
             if (props.visid != '') {
                 const response = await auth.getVisitor("LOADVISITOR", "visid", props.visid);
-                console.log('json', JSON.parse(response)[0]);
-                return JSON.parse(response)[0];
+                response.map((cmp: { [x: string]: string; }) => {
+                    visitorinfo = new VisitorInfo(cmp["VISID"])
+                })
+                console.log(visitorinfo);
+                setVisID(visitorinfo.VISID);
             }
-            return null;
         };
-        visitorinfo = loadVisitor();
-
+        loadVisitor();
+        console.log(visid);
     }, [props.visid]);
 
     return (

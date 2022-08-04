@@ -8,7 +8,7 @@ import { CompanyInfo } from "../../Classes/CompanyInfo";
 export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     const api = useApi();
     const [user, setUser] = useState<User | null>(null);
-    const visitorinfo = new VisitorInfo();
+    const visitorinfo = new VisitorInfo('');
 
     // useEffect(() => {
     //     const validateToken = async () => {
