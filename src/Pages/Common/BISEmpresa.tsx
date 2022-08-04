@@ -17,6 +17,11 @@ export const BISEmpresa = (props: props) => {
     const [companyid, setCompanyID] = useState<string>();
     let cmpinfocmp = new CompanyInfo('','','');
 
+    const [state, setState] = useState({
+        companyid: "",
+        companyno: ""
+    });
+
     const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setName(e.target.value);
     }
@@ -38,15 +43,14 @@ export const BISEmpresa = (props: props) => {
                 response.map((cmp: { [x: string]: string; }) => {
                     cmpinfocmp = new CompanyInfo(cmp["COMPANYID"], cmp["COMPANYNO"], cmp["NAME"])
                 })
-                setCompanyNO(cmpinfocmp.COMPANYNO);
-                setCompanyID(cmpinfocmp.COMPANYID);
+                setState(state => ({...state, companyid: cmpinfocmp.COMPANYID, companyno: cmpinfocmp.COMPANYNO}));
                 }
         };
         getCompanyNO();
     }, [props.companyid]);
 
     const setAlert = async (companyid: string, companyno: string) => {
-        setCompanyNO(companyno);
+        setState({companyno});
         // auth.visitorinfo.companyno = companyno;
         // auth.visitorinfo.companyid = companyid;
         setShow(false);
@@ -61,7 +65,7 @@ export const BISEmpresa = (props: props) => {
                     placeholder="nome da empresa"
                     aria-describedby="basic-addon2"
                     id="companyno"
-                    value={companyno}
+                    value={state.companyno}
                     disabled
                     />
                     <Button onClick={() => setShow(true)}>Selecionar</Button>
