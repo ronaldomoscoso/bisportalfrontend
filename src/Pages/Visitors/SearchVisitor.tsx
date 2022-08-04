@@ -41,7 +41,7 @@ export const SearchVisitor = (props: props) => {
         }
 
         const response = await auth.getVisitor("LOADVISITOR", "geral", search);  
-        setData(response);
+        // setData(response);
         console.log(response);
     };
 
