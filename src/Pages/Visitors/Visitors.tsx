@@ -1,5 +1,5 @@
 import { SetStateAction, useContext, useEffect, useRef, useState } from "react";
-import { Form } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import { VisitorInfo } from "../../Classes/VisitorInfo";
 import { AuthContext } from "../../Contexts/Auth/AuthContext";
 import { BISEmpresa } from "../Common/BISEmpresa";
@@ -14,9 +14,11 @@ interface FormData {
 }
 export const Visitors = (props: Props) => {
     const auth = useContext(AuthContext);
+    const [newVisid, setNewVisID] = useState(false);
     const [state, setState] = useState({
-        name: "",
-        id: ""
+        visid: "",
+        passportno: "",
+        name: ""
     });
     const [name, setName] = useState('');
     let visitorinfo = new VisitorInfo();
@@ -26,41 +28,39 @@ export const Visitors = (props: Props) => {
     }
 
     useEffect(() => {
+        // window.addEventListener('click', () => {alert('ok');setNewVisID(true)});
         const loadVisitor = async () => {
-            if (props.id != '') {
+            if (props.id != '' && newVisid === false) {
                 const response = await auth.getVisitor("LOADVISITOR", "visid", props.id);
                 response.map((cmp: { [x: string]: string; }) => {
-                    visitorinfo.VISID = cmp["VISID"];
-                    visitorinfo.NAME = cmp["NAME"];
+                    setState(state => ({...state, visid: cmp["VISID"], passportno: cmp["PASSPORTNO"], name: cmp["NAME"]}));
                 })
-                setState(state => ({...state, id: visitorinfo.VISID, name: visitorinfo.NAME}));
-                return visitorinfo;
             }
-            return null;
-        };
-        loadVisitor();
-    }, [props.id]);
+            else
+            {
+                setState(state => ({...state, visid: "", passportno: "", name: ""}));
+            }
+
+            };
+            loadVisitor();
+            // return () => {
+            //     window.removeEventListener('click', () => {alert('remove')});
+            // }
+        }, [props.id]);
+
+    const setNew = () => {
+        props.id = '';
+        setState(state => ({ ...state, visid: "", passportno: "", name: "" }));
+        // auth.visitorinfo.companyno = companyno;
+        // auth.visitorinfo.companyid = companyid;
+    };
 
     return (
         <div>
-            <SearchVisitor filter={""} />
-            <Form.Control
-            placeholder="digite o n. do documento ou nome"
-            aria-describedby="basic-addon2"
-            id="search"
-            onChange={handlesubmit}
-            // value={state.name}
-            value={state.id}
-            />
-            <Form.Control
-            placeholder="digite o n. do documento ou nome"
-            aria-describedby="basic-addon2"
-            id="search"
-            onChange={handlesubmit}
-            // value={state.name}
-            value={state.name}
-            />
+            <input type="text"></input>
+            <SearchVisitor visid={state.visid} passportno={state.passportno} name={state.name} />
             <BISEmpresa companyid='0013605EE83D76CA'/>
+            <Button onClick={() => setNew()}>Novo</Button>
         </div>
     );
 }

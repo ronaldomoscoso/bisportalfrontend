@@ -13,9 +13,6 @@ export const BISEmpresa = (props: props) => {
     const [show, setShow] = useState(false);
     const [name, setName] = useState('');
     const [data, setData] = useState([]);
-    const [companyno, setCompanyNO] = useState<string | undefined>();
-    const [companyid, setCompanyID] = useState<string>();
-    let cmpinfocmp = new CompanyInfo('','','');
 
     const [state, setState] = useState({
         companyid: "",
@@ -48,8 +45,8 @@ export const BISEmpresa = (props: props) => {
         getCompanyNO();
     }, [props.companyid]);
 
-    const setAlert = async (companyid: string, companyno: string) => {
-        setState(state => ({ ...state, companyno: companyno }));
+    const setAlert = async (cmpid: string, cmpno: string) => {
+        setState(state => ({ ...state, companyid: cmpid, companyno: cmpno }));
         // auth.visitorinfo.companyno = companyno;
         // auth.visitorinfo.companyid = companyid;
         setShow(false);
