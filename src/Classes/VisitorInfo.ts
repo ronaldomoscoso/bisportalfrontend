@@ -1,8 +1,9 @@
 export class VisitorInfo {
     VISID: string;
-
-    constructor(visid: string) {
-        this.VISID = visid;
+    NAME: string;
+    constructor() {
+        this.VISID = '';
+        this.NAME = '';
     }
 }
 

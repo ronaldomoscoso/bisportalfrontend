@@ -1,4 +1,4 @@
-import { SetStateAction, useContext, useEffect, useState } from "react";
+import { SetStateAction, useContext, useEffect, useRef, useState } from "react";
 import { Form } from "react-bootstrap";
 import { VisitorInfo } from "../../Classes/VisitorInfo";
 import { AuthContext } from "../../Contexts/Auth/AuthContext";
@@ -13,26 +13,31 @@ interface FormData {
 }
 export const Visitors = (props: Props) => {
     const auth = useContext(AuthContext);
-    const [data, setData] = useState([]);
-    const [vid, setVisID] = useState<string>();
+    const [state, setState] = useState({
+        name: "",
+        id: ""
+    });
     const [name, setName] = useState('');
-    let visitorinfo = new VisitorInfo('');
+    let visitorinfo = new VisitorInfo();
     
+    const handlesubmit = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setName(e.target.value);
+    }
+
     useEffect(() => {
         const loadVisitor = async () => {
             if (props.id != '') {
                 const response = await auth.getVisitor("LOADVISITOR", "visid", props.id);
                 response.map((cmp: { [x: string]: string; }) => {
-                    visitorinfo = new VisitorInfo(cmp["VISID"]);
-                    console.log(visitorinfo);
-                    setVisID(visitorinfo.VISID);
+                    visitorinfo.VISID = cmp["VISID"];
+                    visitorinfo.NAME = cmp["NAME"];
                 })
+                setState(state => ({...state, id: visitorinfo.VISID, name: visitorinfo.NAME}));
+                return visitorinfo;
             }
-
-            setVisID(visitorinfo.VISID);
+            return null;
         };
         loadVisitor();
-        console.log(vid, visitorinfo.VISID);
     }, [props.id]);
 
     return (
@@ -41,8 +46,19 @@ export const Visitors = (props: Props) => {
             placeholder="digite o n. do documento ou nome"
             aria-describedby="basic-addon2"
             id="search"
+            onChange={handlesubmit}
+            // value={state.name}
+            value={state.id}
             />
-            <BISEmpresa companyid=''/>
+            <Form.Control
+            placeholder="digite o n. do documento ou nome"
+            aria-describedby="basic-addon2"
+            id="search"
+            onChange={handlesubmit}
+            // value={state.name}
+            value={state.name}
+            />
+            <BISEmpresa companyid='0013605EE83D76CA'/>
         </div>
     );
 }
