@@ -3,6 +3,7 @@ import { Form } from "react-bootstrap";
 import { VisitorInfo } from "../../Classes/VisitorInfo";
 import { AuthContext } from "../../Contexts/Auth/AuthContext";
 import { BISEmpresa } from "../Common/BISEmpresa";
+import { SearchVisitor } from "./SearchVisitor";
 
 interface Props {
     id: string;
@@ -42,6 +43,7 @@ export const Visitors = (props: Props) => {
 
     return (
         <div>
+            <SearchVisitor filter={""} />
             <Form.Control
             placeholder="digite o n. do documento ou nome"
             aria-describedby="basic-addon2"

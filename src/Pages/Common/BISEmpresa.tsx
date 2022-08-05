@@ -41,16 +41,15 @@ export const BISEmpresa = (props: props) => {
             if (props.companyid != '') {
                 const response = await auth.getCompany("LOADCOMPANY", "companyid", props.companyid);
                 response.map((cmp: { [x: string]: string; }) => {
-                    cmpinfocmp = new CompanyInfo(cmp["COMPANYID"], cmp["COMPANYNO"], cmp["NAME"])
+                    setState(state => ({...state, companyid: cmp["COMPANYID"], companyno: cmp["COMPANYNO"]}));
                 })
-                setState(state => ({...state, companyid: cmpinfocmp.COMPANYID, companyno: cmpinfocmp.COMPANYNO}));
-                }
+            }
         };
         getCompanyNO();
     }, [props.companyid]);
 
     const setAlert = async (companyid: string, companyno: string) => {
-        setState({companyno});
+        setState(state => ({ ...state, companyno: companyno }));
         // auth.visitorinfo.companyno = companyno;
         // auth.visitorinfo.companyid = companyid;
         setShow(false);
